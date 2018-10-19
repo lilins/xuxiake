@@ -1,4 +1,5 @@
-
-  <div *ngFor="let city of citys">
-    {{city.currentName}}
-  </div>
+<div>
+  <app-time-bar (onChange)="onChange($event)"></app-time-bar>
+  <app-search-bar></app-search-bar>
+  <div #container class="map-container"></div>
+</div>

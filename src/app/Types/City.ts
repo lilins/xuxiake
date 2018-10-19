@@ -3,7 +3,7 @@ import { Coordinate } from './Coordinate';
 
 export class City {
   id: number;
-  currentName: string;
-  // coordinate: Coordinate;
-  // usedNames: AncientCity[];
+  name: string;
+  coordinate: Coordinate;
+  usedNames: AncientCity[];
 }

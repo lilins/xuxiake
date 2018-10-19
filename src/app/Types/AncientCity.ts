@@ -1,6 +1,6 @@
 export class AncientCity{
   id: number;
-  CityNameId: number;
+  cityNameId: number;
   name: string;
   startDate: string;
   endDate: string;

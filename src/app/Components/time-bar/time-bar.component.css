@@ -1,0 +1,22 @@
+.time-bar{
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+  background: #ffffff;
+  box-shadow: 0px 0px 10px grey;
+  border-radius: 10px;
+  width: 500px;
+}
+.time-bar input{
+  margin-top: 10px;
+  width: 480px;
+}
+.time-bar-tip{
+  transition: all 1s;
+}
+.hidden{
+  visibility: hidden;
+  opacity: 0;
+}

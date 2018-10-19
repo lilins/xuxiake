@@ -353,12 +353,26 @@ var citys = [
   { "name": "台湾省", "abbreviation": "台", "capital": "台北市" }
 ]
 
-var city = [
-  { id: 1, currentName: "北京市", coordinate: {}, usedNames: "" },
-  { id: 2, currentName: "天津市", coordinate: {}, usedNames: "" },
-  { id: 3, currentName: "河北省", coordinate: {}, usedNames: "" }
-]
-
+var count = 1900
+var city = places.map((place, index) => {
+  const id = index + 1;
+  const name = place.name;
+  const coordinate = {
+    id: index + 1,
+    longitude: place.geoCoord[0],
+    latitude: place.geoCoord[1]
+  }
+  let usedNames = Array(Math.floor(Math.random()*5)).fill({}).map((item, index) =>{
+    item.id = 1;
+    item.cityNameId = id;
+    item.name = name + Math.floor(Math.random()*100);
+    count += index
+    item.startDate = count.toString();
+    item.endDate = '0';
+    return item;
+  })
+  return { id, name, coordinate, usedNames }
+})
 
 @Injectable({
   providedIn: 'root'
@@ -368,7 +382,7 @@ export class CityService {
   constructor(private messageService: MessageService) { }
 
   getCity(): Observable<City[]> {
-    this.messageService.add('HeroService: fetched heroes');
+    this.messageService.add('CityService: fetched Citys');
     return of(city);
   }
 }

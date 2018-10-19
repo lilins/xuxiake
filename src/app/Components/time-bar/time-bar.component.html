@@ -1,0 +1,6 @@
+<div class="time-bar">
+  <input type="range" min="{{timeBar.min}}" max="{{timeBar.max}}"
+    [(ngModel)]="value" 
+    (ngModelChange)="change()"/>
+  <div class="time-bar-tip" [ngClass]="{'hidden':!tipsVisible}">{{value}}</div>
+</div>
