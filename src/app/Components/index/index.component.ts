@@ -16,8 +16,13 @@ export class IndexComponent implements OnInit {
   key: string
   map: any
   markers: any[]
+  timeValue: string
+  searchValue: string
 
-  constructor(private cityService: CityService) { }
+  constructor(private cityService: CityService) { 
+    this.timeValue = '1900';
+    this.searchValue = '';
+  }
 
   setMaker(city) {
     const icon = new AMap.Icon({
@@ -47,22 +52,33 @@ export class IndexComponent implements OnInit {
     this.map.remove(this.markers);
   }
 
+  citysFilter() {
+    return this.citys.filter(item => {
+      return (this.searchValue ? this.searchValue === item.name : true)
+        && item.usedNames.find(event => {
+          return parseInt(event.startDate) < parseInt(this.timeValue)
+        }) 
+    })
+    .map(item => this.setMaker(item));
+  }
+
   onChange(value){
-    this.removeMarkers()
-    this.markers = this.citys
-      .filter(item => {
-        return item.usedNames.find( event => {
-        return parseInt(event.startDate) < value
-      })})
-      .map(item => this.setMaker(item))
-    this.map.add(this.markers)
+    this.removeMarkers();
+    this.timeValue = value
+    this.markers = this.citysFilter();
+    this.map.add(this.markers);
+  }
+
+  onSearchBarChange(value){
+    this.removeMarkers();
+    this.searchValue = value;
+    this.markers = this.citysFilter();
+    this.map.add(this.markers);
   }
 
   ngOnInit() {
-    this.cityService.getCity()
-      .subscribe(citys => this.citys = citys);
     this.key = '62727399336d1159ed35502b99c1d6ed';
-    this.markers = []
+    this.markers = [];
   }
 
   ngAfterViewInit() {
@@ -71,8 +87,14 @@ export class IndexComponent implements OnInit {
       zoom: 4, //初始化地图层级
       // center: [116.397428, 39.90923] //初始化地图中心点
     });
-    this.markers = this.citys.map(item => this.setMaker(item))
-    this.map.add(this.markers)
+    this.cityService.getCity()
+      .subscribe(citys => {
+        this.citys = citys
+        this.markers = this.citys.map(item => this.setMaker(item))
+        this.map.add(this.markers)
+      });
+    // this.markers = this.citys.map(item => this.setMaker(item))
+    // this.map.add(this.markers)
   }
 
 }

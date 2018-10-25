@@ -1,19 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
+import { HttpClientModule }    from '@angular/common/http';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AppComponent } from './app.component';
-import { IndexComponent, TimeBarComponent, SearchBarComponent } from './Components';
+import { IndexComponent, TimeBarComponent, SearchBarComponent, CityFormComponent } from './Components';
+
 @NgModule({
   declarations: [
     AppComponent,
     IndexComponent,
     TimeBarComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    CityFormComponent
   ],
   imports: [
+    HttpClientModule,
+    TooltipModule.forRoot(),
     BrowserModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  exports: [
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

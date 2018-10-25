@@ -1,0 +1,9 @@
+<div class="city-form">
+  <form [formGroup]="profileForm">
+    <div class="form-group">
+      <label for="{{vm.cityNameLabel}}">{{ vm.cityNameLabel }}</label>
+      <input class="form-control" type="text" formControlName="cityName"/>
+      <small>{{profileForm.value | json}}</small>
+    </div>
+  </form>
+</div>

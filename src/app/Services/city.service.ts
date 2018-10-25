@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { City } from '../Types/City';
 
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { environment } from '../../environments/environment';
  
 import { MessageService } from './message.service';
 
@@ -354,7 +358,7 @@ var citys = [
 ]
 
 var count = 1900
-var city = places.map((place, index) => {
+var cityProcess = citys => citys.map((place, index) => {
   const id = index + 1;
   const name = place.name;
   const coordinate = {
@@ -362,7 +366,7 @@ var city = places.map((place, index) => {
     longitude: place.geoCoord[0],
     latitude: place.geoCoord[1]
   }
-  let usedNames = Array(Math.floor(Math.random()*5)).fill({}).map((item, index) =>{
+  let usedNames = Array(Math.floor(Math.random()*5)+1).fill({}).map((item, index) =>{
     item.id = 1;
     item.cityNameId = id;
     item.name = name + Math.floor(Math.random()*100);
@@ -371,7 +375,8 @@ var city = places.map((place, index) => {
     item.endDate = '0';
     return item;
   })
-  return { id, name, coordinate, usedNames }
+  const city = { id, name, coordinate, usedNames }
+  return city
 })
 
 @Injectable({
@@ -379,10 +384,22 @@ var city = places.map((place, index) => {
 })
 export class CityService {
 
-  constructor(private messageService: MessageService) { }
-
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService) { }
+  
+  private citysUrl = `${environment.apiBaseURL}/places`;
   getCity(): Observable<City[]> {
+    const httpOptions = {
+      headers: new HttpHeaders({ 
+        'Access-Control-Allow-Origin':'*',
+        'Authorization':'authkey',
+        'userid':'1'
+      })
+    };
     this.messageService.add('CityService: fetched Citys');
-    return of(city);
+    return this.http.get<City[]>(this.citysUrl).pipe(
+      // map(cityProcess)
+    );
   }
 }
